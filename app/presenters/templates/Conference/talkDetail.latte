@@ -1,0 +1,111 @@
+{block title}Přednáška {$talk->title}{/block}
+{block content}
+
+<section>
+    <div class="wrapper bg-gray">
+        <div class="container text-center">
+            <span class="heading-subtitle"><a n:href="talks">« Zpět na seznam přednášek</a></span>
+            <h1><span class="dot-end">Přednáška</span></h1>
+        </div>
+        <div class="container">
+            <div class="pure-g talk-detail">
+                <div class="pure-u-1 pure-u-md-2-3">
+                    <div class="item-content">
+                        <h2 class="item-title">{$talk->title}</h2>
+                        {if ! $talk->enabled}
+                            <p class="remove-note">Přednáška je zrušena a nekoná se!</p>
+                        {/if}
+                        <div class="item-text">
+                            {block metaDescription}{$talk->description|breaklines}{/block}
+                        </div>
+                        <h3>Komu je přednáška určena?</h3>
+                        <div class="item-text">
+                            {$talk->purpose|breaklines}
+                        </div>
+
+                        {if $program}
+                            <h3>Kde se přednáška koná?</h3>
+                            <div class="item-text">
+                                Přednáška se koná <strong>od {$program['time']}</strong> v místnosti <strong>{$program['room']}</strong>.<br>
+                                <a n:href="program">Podívej se na celý program</a>
+                            </div>
+                        {/if}
+
+                        {if $showReport}
+                            {var $slides = $talk->getLinksByType('slides')}
+                            {if $slides}
+                                <h3>Prezentace</h3>
+                                <ul>
+                                    <li n:foreach="$slides as $slide">
+                                        <a href="{$slide[url]}" target="_blank" rel="noopener">{$slide[name]}</a>
+                                    </li>
+                                </ul>
+                            {/if}
+
+                            {var $videos = $talk->getLinksByType('videos')}
+                            {if $videos}
+                                <h3>Videa</h3>
+                                <ul class="videos">
+                                    <li n:foreach="$videos as $video">
+                                        <h4>{$video[name]}</h4>
+                                        <iframe width="540" height="304" src="{$video['url']|embedizeYouTube}" frameborder="0" allowfullscreen></iframe>
+                                        <a href="{$video['url']|campainizeYouTube}" target="_blank" rel="noopener" class="yt-link">
+                                            Zobrazit na YouTube
+                                        </a>
+
+                                    </li>
+                                </ul>
+                            {/if}
+                        {/if}
+                    </div>
+                </div>
+                <div class="pure-u-1 pure-u-md-1-3 item-author">
+                    <img class="item-image failover" src="{block ogImage}{$talk->conferee->pictureUrl}{/block}">
+                    <div class="item-author-name">{$talk->conferee->name}</div>
+                    <div n:ifcontent class="item-meta">{$talk->company}</div>
+
+                    <div n:ifcontent class="item-options item-vote-box">
+                        {if $features->show_vote}
+                            <span class="item-count">{$talk->votes}</span> hlasů
+                        {/if}
+                        <div n:ifcontent class="item-buttons">
+                            {if $allowVote}
+                                {if !$user->isLoggedIn()}
+                                    <a href="{link signToVote!}" class="btn btn-sm btn-secondary">Přihlas se a hlasuj</a>
+                                {else}
+                                    <a href="{link unvote!, talkId => $talk->id}" class="btn btn-sm btn-action-bordered vote-ajax is-voted" data-id="{$talk->id}" data-dir="unvote" {if !isset($votes[$talk->id])}style="display:none;"{/if}>Má můj hlas</a>
+                                    <a href="{link vote!, talkId => $talk->id}" class="btn btn-sm btn-secondary vote-ajax is-not-voted" data-id="{$talk->id}" data-dir="vote" {if isset($votes[$talk->id])}style="display:none;"{/if}>Dej mi svůj hlas!</a>
+                                {/if}
+                            {/if}
+
+                            {*<div class="show-full">*}
+                            {*<a href="#" class="btn btn-sm btn-action-bordered">Chci přijít</a>*}
+                            {*</div>*}
+                        </div>
+                    </div>
+
+                    <p n:ifcontent class="item-author-bio">{$talk->conferee->bio}</p>
+                    <div class="item-author-contact">
+                        <div class="item-social">
+                            <a n:if="isset($extended['url']['facebook']) && $extended['url']['facebook']" href="{$extended['url']['facebook']}" target="_blank" rel="noopener">
+                                <span class="icon icon-facebook-1"><span class="path1"></span><span class="path2"></span></span>
+                            </a>
+                            <a n:if="isset($extended['url']['twitter']) && $extended['url']['twitter']" href="{$extended['url']['twitter']}" target="_blank" rel="noopener">
+                                <span class="icon icon-twitter-2"><span class="path1"></span><span class="path2"></span></span>
+                            </a>
+                            <a n:if="isset($extended['url']['google']) && $extended['url']['google']" href="{$extended['url']['google']}" target="_blank" rel="noopener">
+                                <span class="icon icon-google-plus"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+                            </a>
+                            <a n:if="isset($extended['url']['linkedin']) && $extended['url']['linkedin']" href="{$extended['url']['linkedin']}" target="_blank" rel="noopener">
+                                <span class="icon icon-linkedin"><span class="path1"></span><span class="path2"></span></span>
+                            </a>
+                        </div>
+
+                        <a n:if="isset($extended['url']['www']) && $extended['url']['www']" href="{$extended['url']['www']}" target="_blank" rel="noopener">{$extended['url']['www']}</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

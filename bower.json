@@ -1,0 +1,20 @@
+{
+  "name": "prazskybarcamp-web",
+  "description": "Web Pražského barcampu",
+  "authors": [
+    "jakub Bouček"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/jakubboucek/prazskybarcamp-web.git",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": ">= 3.3.0 <4.0",
+    "ublaboo-datagrid": "5.5.3"
+  }
+}

@@ -1,0 +1,16 @@
+{block title}{block h1}Editace odkazu{/block}- Pražský Barcamp{/block}
+{block content}
+
+<table class="table">
+    <tr>
+        <th>Název přednášky</th>
+        <td>{$talk->title}</td>
+    </tr>
+    <tr>
+        <th>Přednášející</th>
+        <td>{$talk->conferee->name} (<a href="mailto:{$talk->conferee->email}">{$talk->conferee->email}</a>)</td>
+    </tr>
+</table>
+
+{include bootstrap-form linkEditForm}
+

@@ -1,0 +1,16 @@
+{block title}{block h1}Editace účastníka{/block}- Pražský Barcamp{/block}
+{block content}
+
+<table class="table">
+    <tr>
+        <th>Název účastníka</th>
+        <td>{$conferee->name}</td>
+    </tr>
+</table>
+
+{include bootstrap-form confereeEditForm}
+
+<details>
+    <summary>Smazat účastníka</summary>
+    {include bootstrap-form confereeDeleteForm}
+</details>

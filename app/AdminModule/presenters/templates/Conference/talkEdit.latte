@@ -1,0 +1,53 @@
+{block title}{block h1}Přednáška{/block}- Pražský Barcamp{/block}
+{block content}
+
+<table class="table">
+    <tr>
+        <th>Název přednášky</th>
+        <td>{$talk->title}</td>
+    </tr>
+    <tr>
+        <th>Přednášející</th>
+        <td>{$talk->conferee->name} (<a href="mailto:{$talk->conferee->email}">{$talk->conferee->email}</a>)</td>
+    </tr>
+    <tr>
+        <th>Poznámky pro organizátory</th>
+        <td>{$talk->notes|breaklines}</td>
+    </tr>
+    <tr>
+        <th>Požadavek na délku</th>
+        <td>
+            {ifset $extended[requested_duration]}
+                {if $extended[requested_duration] == 'notmatter'}Nezáleží{else}{$extended[requested_duration]} minut{/if}
+            {else}
+                -
+            {/ifset}
+        </td>
+    </tr>
+</table>
+
+{include bootstrap-form talkForm}
+
+{foreach ['slides' => 'Slajdy', 'videos' => 'Videa'] as $sectKey => $sectName}
+<h2>{$sectName}</h2>
+<table class="table table-border">
+    <tr>
+        <th>Název</th>
+        <th>
+            Akce
+            <a n:href="editLink, talkId=>$talk->id, type=>$sectKey, key=>'new'" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Přidat</a>
+        </th>
+    </tr>
+    {foreach $talk->getLinksByType($sectKey) as $key => $item}
+    <tr>
+        <td>
+            <a href="{$item[url]}" target="_blank" rel="noopener">{$item[name]}</a>
+        </td>
+        <td>
+            <a n:href="editLink, talkId=>$talk->id, type=>$sectKey, key=>$key" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Upravit</a>
+            <a n:href="deleteLink!, talkId=>$talk->id, type=>$sectKey, key=>$key" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Smazat</a>
+        </td>
+    </tr>
+    {/foreach}
+</table>
+{/foreach}

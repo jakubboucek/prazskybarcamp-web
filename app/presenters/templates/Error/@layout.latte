@@ -1,0 +1,76 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#001630">
+    <title>{ifset title}{include title|stripHtml} | {/ifset}Chyba | Pražský Barcamp</title>
+    <script>
+        window.dataLayer = [
+            {'event': 'gtm.js', 'gtm.start': new Date().getTime()},
+            {'event': 'error', 'error.code': {$errorCode}, 'error.message': {$errorMessage}}
+        ];
+    </script>
+    <script src="https://www.googletagmanager.com/gtm.js?id=GTM-N5SJSZW" async></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800,900|Roboto:300,300i,400,400i,700,900&amp;subset=latin-ext"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{$basePath}/css/main.css">
+    <link rel="shortcut icon" href="{$basePath}/favicon.ico">
+    <script src="{$basePath}/js/main.js" async></script>
+</head>
+
+<body class="error">
+
+<header>
+    <div class="header">
+        <div class="header-inner">
+            <h1 class="logo">
+                <a href="{link :Homepage:}">
+                    <img src="{$basePath}/img/logo.png" width="310" height="70" alt="Pražský Barcamp">
+                </a>
+            </h1>
+
+            <div class="header-nav">
+                <ul class="nav">
+                    <li class="active"><a href="{link :Homepage:}"><span class="nav-link">Home</span></a></li>
+                </ul>
+            </div>
+
+            <div class="btn-mobile-menu-open-container">
+                <span class="btn-mobile-menu-open"><span></span></span>
+                <span class="item-text">Menu</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <div class="flash-wrapper" n:if="$flashes">
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+    </div>
+
+    {include content}
+
+</main>
+
+<footer>
+    <div class="footer">
+        <div class="container">
+
+            <div class="footer-copyright">
+                © 2018 Pražský Barcamp
+                | <a href="https://www.redbit.cz/" target="_blank" rel="noopener">Redbit s.r.o.</a>
+                | <a href="https://www.jakub-boucek.cz/" target="_blank" rel="noopener">Jakub Bouček</a>
+                | Webdesign Roman Káčerek
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

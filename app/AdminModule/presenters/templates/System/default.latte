@@ -1,0 +1,27 @@
+{block title}{block h1}Systémová nastavení{/block}- Pražský Barcamp{/block}
+{block content}
+
+<h2>Ladění webu</h2>
+<p>Ladění webu je nyní <strong>
+        {if $isDebug}
+            <span class="glyphicon glyphicon-ok"></span> zapnuto
+        {else}
+            <span class="glyphicon glyphicon-remove"></span> vypnuto
+        {/if}
+    </strong>.</p>
+
+{if $isDebugByEnv}
+    <p><span class="label label-info">Info</span> Ladění je zapnuto přes Environment (lokální prostředí), takže nastavení nelze změnit.</p>
+{elseif !$secured}
+    <p><span class="label label-info">Info</span> Aplikace není provozována na HTTPS, takže nastavení nelze změnit.</p>
+{elseif $isDebug}
+    <p><a n:href="turnDebugOff!" class="btn btn-primary"><span class="glyphicon glyphicon-remove"></span> Vypnout</a></p>
+{else}
+    <p><a n:href="turnDebugOn!" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Zapnout</a></p>
+{/if}
+
+<hr>
+
+<h2>API tokeny</h2>
+
+{control apiTokensDatagrid}

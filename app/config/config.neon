@@ -1,0 +1,114 @@
+#
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# https://nette.org/security-warning
+#
+parameters:
+    currentYear: 2018
+    database:
+        driver: mysqli
+        host: prazskybarcampweb_mysqldb_1
+        dbname: prazskybarcamp
+        user: root
+        password: prazskybarcamp
+        port: 3306
+    facebook:
+        app_id: '166646454130570'
+        app_secret: {app-secret}
+        default_graph_version: v2.2
+    mail:
+        from: "Pražský Barcamp <info@prazskybarcamp.cz>"
+    api_token_secretkey: {secret-token}
+
+
+application:
+    errorPresenter: Error
+    mapping:
+        *: App\*Module\Presenters\*Presenter
+
+extensions:
+    replicator: Kdyby\Replicator\DI\ReplicatorExtension
+    nextras.dbal: Nextras\Dbal\Bridges\NetteDI\DbalExtension
+    nextras.orm: Nextras\Orm\Bridges\NetteDI\OrmExtension
+
+nextras.dbal:
+    driver: %database.driver%
+    host: %database.host%
+    database: %database.dbname%
+    username: %database.user%
+    password: %database.password%
+    connectionTz: '+2:00'
+    port: %database.port%
+
+nextras.orm:
+    model: App\Orm\Orm
+
+mail:
+    smtp: true
+    host: vip-mail.superhosting.cz
+    username: info@prazskybarcamp.cz
+    password: {app-password}
+    secure: ssl
+
+tracy:
+    maxDepth: 4
+
+session:
+    expiration: 14 days
+    cookie_secure: %productionMode%
+    debugger: true
+
+security:
+    debugger: true
+
+
+http:
+    csp:
+        script-src: [
+            strict-dynamic, nonce
+            self, unsafe-inline
+        ]
+
+
+database:
+    dsn: 'mysql:host=%database.host%;dbname=%database.dbname%'
+    user: %database.user%
+    password: %database.password%
+    options:
+        lazy: yes
+
+services:
+    - App\Model\ApiTokenManager(%api_token_secretkey%)
+    - App\Model\Authenticator\AuthenticatorProvider
+    - App\Model\Authenticator\Email
+    - App\Model\Authenticator\Facebook(%facebook%)
+    - App\Model\AvatarStorage('%wwwDir%/upload/%currentYear%', 'upload/%currentYear%')
+    - App\Model\ConfigManager
+    - App\Model\ConfereeManager
+    - App\Model\EventInfoProvider
+    - App\Model\EnumeratorManager
+    - App\Model\IdentityManager
+    - App\Model\MailerManager(%mail%, '%tempDir%/cache')
+    - App\Model\MailDynamicLoader
+    - App\Model\NewsletterSignupManager
+    - App\Model\PartnersManager
+    - App\Model\PartnerLogoStorage('%wwwDir%/upload/%currentYear%/partner', 'upload/%currentYear%/partner')
+    - App\Model\ScheduleManager
+    - App\Model\TalkManager
+    - App\Model\UserManager
+
+    - App\Forms\FormFactory
+    - App\Forms\ConfereeForm
+    - App\Forms\TalkForm
+    - App\Forms\SignInFormFactory
+    - App\Forms\SignUpFormFactory
+
+    - App\Components\Enumerator\IEnumeratorFormControlFactory
+    - App\Components\Faq\IFaqControlFactory
+    - App\Components\Newsletter\NewsletterSignupFactory
+    - App\Components\Partners\IPartnersControlFactory
+    - App\Components\Program\IProgramControlFactory
+    - App\Components\Schedule\IScheduleControlFactory
+    - App\Components\SignupButtons\SignupButtonsFactory
+    - App\Components\SpeakerList\ISpeakerListControlFactory
+
+    router: App\RouterFactory::createRouter

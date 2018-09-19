@@ -1,0 +1,113 @@
+{block title}Přednášky{/block}
+{block content}
+
+<div class="page-header bg-gray">
+    <div class="container text-center">
+        <span class="heading-subtitle">Pražský Barcamp</span>
+        <h1 class="dot-end">Přednášky</h1>
+        <p>Přednášet může kdokoliv na jakékoliv téma. Přednášející by měl naplňovat hlavní myšlenku barcampu, a tou je sdílení a předávání svých zkušeností zdarma účastníkům akce.</p>
+        <p>Svou přednášku si může přednášející vypsat ihned po začátku registrace. O přednáškách, které se dostanou do programu barcampu, hlasují účastníci. Zhruba 2 týdny před konáním barcampu je zveřejněn podrobný program.</p>
+        <p>Délka přednášky je 20-40 minut. Po konci přednášky jsou účastníci vyzváni k dotazům.</p>
+        <p>Přednášky je možné vypisovat od {$dates->talks|date:'j. n.'}</p>
+    </div>
+</div>
+
+<div class="wrapper">
+    <div class="container">
+        <div class="lectures-header">
+            <div class="left">
+                Registrovaných přednášek: <span class="item-count">{$count}</span>
+            </div>
+            <div class="right">
+                {if !$features->talks}
+                    {* nothing *}
+                {elseif $user->isInRole('speaker')}
+                    <a href="{link User:talk}" class="btn btn-sm btn-secondary">Upravit mojí přednášku</a>
+                {else}
+                    <a href="{link Sign:talk}" class="btn btn-sm btn-action">Vypiš si svou přednášku</a>
+                {/if}
+            </div>
+        </div>
+
+        <ul class="lectures-list">
+            {foreach $talksInfo as $talkInfo}
+                {var $talk = $talkInfo['talk']}
+                {var $conferee = $talk->conferee}
+                {var $extended = $talkInfo['extended']}
+                {var $category = $talkInfo['category']}
+                {var $isOver = $selectedLimit && $iterator->getCounter() > $selectedLimit}
+                {var $isFirstOver = $isOver && $iterator->getCounter() == $selectedLimit + 1}
+            <li n:class="$isOver ? old, $isFirstOver ? first">
+                <div class="item-header">
+                    <span class="item-number">{$iterator->counter}</span>
+                    <img src="{$conferee->pictureUrl}" alt="author" class="item-image failover" width="65" height="65">
+                    <div class="item-author">
+                        <span class="item-author-name">{$conferee->name}</span>
+                        <span n:ifcontent class="item-meta" title="{$talk->company}">{$talk->company|truncate:35}</span>
+                    </div>
+                    <div class="item-author-contact show-full">
+                        <div class="item-social">
+                            <a n:if="isset($extended['url']['facebook']) && $extended['url']['facebook']" href="{$extended['url']['facebook']}" target="_blank" rel="noopener">
+                                <span class="icon icon-facebook-1"><span class="path1"></span><span class="path2"></span></span>
+                            </a>
+                            <a n:if="isset($extended['url']['twitter']) && $extended['url']['twitter']" href="{$extended['url']['twitter']}" target="_blank" rel="noopener">
+                                <span class="icon icon-twitter-2"><span class="path1"></span><span class="path2"></span></span>
+                            </a>
+                            <a n:if="isset($extended['url']['google']) && $extended['url']['google']" href="{$extended['url']['google']}" target="_blank" rel="noopener">
+                                <span class="icon icon-google-plus"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+                            </a>
+                            <a n:if="isset($extended['url']['linkedin']) && $extended['url']['linkedin']" href="{$extended['url']['linkedin']}" target="_blank" rel="noopener">
+                                <span class="icon icon-linkedin"><span class="path1"></span><span class="path2"></span></span>
+                            </a>
+                        </div>
+
+                        <a n:if="isset($extended['url']['www']) && $extended['url']['www']" href="{$extended['url']['www']}" target="_blank" rel="noopener">{$extended['url']['www']}</a>
+                    </div>
+                </div>
+                <div class="item-content">
+                    <div class="item-content-perex js-lecture-control">
+                        <h2 class="item-title">{$talk->title}</h2>
+                        <div class="item-text" title="{$talk->description|stripHtml}">{$talk->description|stripHtml|truncate:150}</div>
+
+                        <div class="item-tags">
+                            <span n:if="$category" class="item-tag"><span>{$category}</span></span>
+                        </div>
+                    </div>
+
+                    <div class="item-content-full">
+                        <h2 class="item-title js-lecture-control">{$talk->title}</h2>
+                        <div class="item-text">
+                            <p>{$talk->description|breaklines}</p>
+
+                            <h3>Komu je přednáška určena?</h3>
+                            {$talk->purpose|breaklines}
+
+                            <div><a href="{link talkDetail id => $talk->id}" class="btn btn-brand btn-sm mt-xs">Zobrazit detail přednášky</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-options item-vote-box">
+                    {if $features->show_vote}
+                        <span class="item-count">{$talk->votes}</span> hlasů
+                    {/if}
+                    <div class="item-buttons">
+                        {if $allowVote}
+                            {if !$user->isLoggedIn()}
+                                <a href="{link signToVote!}" class="btn btn-sm btn-secondary">Přihlas se a hlasuj</a>
+                            {else}
+                                <a href="{link unvote!, talkId => $talk->id}" class="btn btn-sm btn-action-bordered vote-ajax is-voted" data-id="{$talk->id}" data-dir="unvote" {if !isset($votes[$talk->id])}style="display:none;"{/if}>Má můj hlas</a>
+                                <a href="{link vote!, talkId => $talk->id}" class="btn btn-sm btn-secondary vote-ajax is-not-voted" data-id="{$talk->id}" data-dir="vote" {if isset($votes[$talk->id])}style="display:none;"{/if}>Dej mi svůj hlas!</a>
+                            {/if}
+                        {/if}
+
+                        {*<div class="show-full">*}
+                            {*<a href="#" class="btn btn-sm btn-action-bordered">Chci přijít</a>*}
+                        {*</div>*}
+                    </div>
+                </div>
+            </li>
+            {/foreach}
+        </ul>
+
+    </div>
+</div>

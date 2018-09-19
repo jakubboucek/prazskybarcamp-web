@@ -1,0 +1,30 @@
+{
+  "name": "prazskybarcamp-web",
+  "version": "1.0.0",
+  "description": "Web Pražského barcampu",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakubboucek/prazskybarcamp-web.git"
+  },
+  "author": "Redbit s.r.o.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jakubboucek/prazskybarcamp-web/issues"
+  },
+  "homepage": "https://github.com/jakubboucek/prazskybarcamp-web#readme",
+  "devDependencies": {
+    "grunt": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-less": "^1.4.1",
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-contrib-watch": "^1.0.1"
+  },
+  "dependencies": {}
+}

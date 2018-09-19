@@ -1,0 +1,149 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {include 'includes/gtm-full.latte'}
+    <meta name="theme-color" content="#001630">
+    <title>{ifset #title}{include title|stripHtml} | {/ifset}Pražský Barcamp</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800,900|Roboto:300,300i,400,400i,700,900&amp;subset=latin-ext"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{$basePath}/css/main.css?{=filemtime($wwwDir . '/css/main.css')}">
+    <link rel="shortcut icon" href="{$basePath}/favicon.ico">
+    <script src="{$basePath}/js/main.js?{=filemtime($wwwDir . '/js/main.js')}" async n:nonce></script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{ifset #title}{include title|stripHtml}{else}Pražský barcamp{/ifset}">
+    <meta property="og:site_name" content="Pražský barcamp">
+    <meta property="og:url" content="{link //this}">
+    {ifset #metaDescription}<meta property="og:description" content="{include metaDescription|stripHtml|truncate:300}">{/ifset}
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:image" content="{block ogImage}{$socialUrls->ogImage ?: $baseUri.'/img/barcamp-og.png'}{/block}">
+</head>
+
+<body class="preload no-js {ifset $isHp}hp{/ifset}">
+{include 'includes/gtm-noscript.latte'}
+<header>
+    <div class="header">
+        <div class="header-inner">
+            <h1 class="logo">
+                <a href="{link :Homepage:}">
+                    <img src="{$basePath}/img/logo-color-white-620.png" width="310" height="70" alt="Pražský Barcamp">
+                </a>
+            </h1>
+
+            <div class="header-nav">
+                <ul class="nav">
+                    <li {ifCurrent :Homepage:}class="active"{/ifCurrent}><a href="{link :Homepage:}"><span class="nav-link">Úvod</span></a></li>
+                    <li {ifCurrent :Homepage:history}class="active"{/ifCurrent}><a href="{link :Homepage:history}"><span class="nav-link">O akci</span></a></li>
+                    {*<li><a href="#program" class="scrollto"><span class="nav-link">Program</span></a></li>*}
+                    <li n:if="$features->program" {ifCurrent :Conference:program}class="active"{/ifCurrent}><a href="{link :Conference:program}"><span class="nav-link">Program</span></a></li>
+                    <li n:if="$features->talks_show" {ifCurrent :Conference:talks}class="active"{/ifCurrent}><a href="{link :Conference:talks}"><span class="nav-link">Přednášky</span></a></li>
+                    {*<li><a href="#"><span class="nav-link">Workshopy</span></a></li>*}
+                    {*<li><a href="#"><span class="nav-link">Afterpárty</span></a></li>*}
+                    <li {ifCurrent Homepage:contact}class="active"{/ifCurrent}><a href="{link :Homepage:contact}"><span class="nav-link">Kontakt</span></a></li>
+                    {if $user->isLoggedIn()}
+                        <li {ifCurrent User:*}class="active"{/ifCurrent}><a href="{link User:profil}"><span class="nav-link">{$user->identity->name}</span></a></li>
+                    {else}
+                        <li {ifCurrent Sign:*}class="active"{/ifCurrent}><a href="{link Sign:in}"><span class="nav-link">Přihlásit</span></a></li>
+                    {/if}
+
+                </ul>
+            </div>
+
+            <div class="btn-mobile-menu-open-container">
+                <span class="btn-mobile-menu-open"><span></span></span>
+                <span class="item-text">Menu</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="flash-wrapper" n:if="$flashes">
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+    </div>
+
+    {include content}
+
+</main>
+
+<footer>
+    <div class="footer">
+        <div class="container">
+
+            <div class="row pure-g pure-p">
+                <div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-4">
+                    <h4 class="footer-title">Registrace</h4>
+                    <ul class="footer-nav">
+                        <li><a n:if="$features->conferee" href="{link :Sign:up}">Registrovat se</a></li>
+                        <li><a href="{link :Sign:in}">Přihlášení</a></li>
+                    </ul>
+                </div>
+                <div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-4">
+                    <h4 class="footer-title">Přednášející</h4>
+                    <ul class="footer-nav">
+                        {*<li><a href="#">Hlasovat pro přednášejícího</a></li>*}
+                        <li><a href="{link :Sign:talk}">Vypsat svou přednášku</a></li>
+                    </ul>
+                </div>
+                <div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-4">
+                    <h4 class="footer-title">O Barcampu</h4>
+                    <ul class="footer-nav">
+                        {*<li><a href="https://blog.prazskybarcamp.cz/kulate-stoly/">Kulaté stoly</a></li>*}
+                        {*<li><a href="#">Chci být partner Barcampu</a></li>
+                        <li><a href="#">Chci být dobrovolník</a></li>
+                        <li><a href="#">O nás</a></li>*}
+                        <li><a href="{link :Homepage:contact}">Všechny kontakty</a></li>
+                    </ul>
+                </div>
+                <div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-4">
+                    <h4 class="footer-title">Ke stažení</h4>
+                    <ul class="footer-nav">
+                        <li><a href="https://github.com/jakubboucek/prazskybarcamp-web/" target="_blank" rel="noopener">Zdrojový kód webu (GitHub)</a></li>
+                        {*<li><a href="https://drive.google.com/open?id=1kot4TezPkobQfh89evv2dh7hpGqhWy2U" target="_blank" rel="noopener">Logo Barcampu</a></li>*}
+                    </ul>
+                </div>
+            </div>
+
+            {if}
+            {var $socialCount = 0}
+            <div class="footer-social">
+                Jsme lapeni v sítích
+
+                <a n:if="$socialUrls->facebook" href="{$socialUrls->facebook}" class="item">
+                    <span class="icon icon-facebook"></span>
+                    {php $socialCount++}
+                </a>
+                <a n:if="$socialUrls->twitter" href="{$socialUrls->twitter}" class="item">
+                    <span class="icon icon-twitter-1"></span>
+                    {php $socialCount++}
+                </a>
+                <a n:if="$socialUrls->youtube" href="{$socialUrls->youtube}" class="item">
+                    <span class="icon icon-youtube"><span class="path1"></span><span class="path2"></span></span>
+                    {php $socialCount++}
+                </a>
+                <a n:if="$socialUrls->instagram" href="{$socialUrls->instagram}" class="item">
+                    <span class="icon">
+                        <img src="{$basePath}/img/instagram.svg" alt="instagram" width="32" height="32">
+                    </span>
+                    {php $socialCount++}
+                </a>
+            </div>
+            {/if $socialCount}
+
+            <div class="footer-copyright">
+                © 2018 Pražský Barcamp
+                | <a href="https://www.redbit.cz/" target="_blank" rel="noopener">Redbit s.r.o.</a>
+                | <a href="https://www.jakub-boucek.cz/" target="_blank" rel="noopener">Jakub Bouček</a>
+                | Webdesign Roman Káčerek
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

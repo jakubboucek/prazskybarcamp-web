@@ -1,0 +1,37 @@
+<div class="signup-buttons">
+    <div class="signup-button visitor">
+        <div class="item-icon">
+            0<span class="currency">Kč</span>
+        </div>
+
+        <span class="item-title">Chci se účastnit</span>
+
+        <div>
+            Přihlášení je možné od {$dates->talks|date:'j. n. Y'}
+        </div>
+
+        <a n:tag-if="$features->conferee" href="{plink Sign:conferee}">
+            <span class="btn btn-sm btn-action {if !$features->conferee}disabled{/if}" title="Přihlášení je možné od {$dates->talks|date:'j. n. Y'}">
+                CHCI PŘIJÍT NA BARCAMP
+            </span>
+        </a>
+    </div>
+
+    <div class="signup-button">
+        <div class="item-icon">
+            <span class="icon icon-music"></span>
+        </div>
+
+        <span class="item-title">Chci přednášet</span>
+
+        <div>
+            Přihlášení je možné od {$dates->talks|date:'j. n. Y'}
+        </div>
+
+        <a n:tag-if="$features->talks" href="{plink Sign:talk}">
+            <span class="btn btn-sm btn-action {if !$features->talks}disabled{/if}" title="Vypsání přednášky je možné od {$dates->talks|date:'j. n. Y'}">
+                CHCI VYPSAT PŘEDNÁŠKU
+            </span>
+        </a>
+    </div>
+</div>

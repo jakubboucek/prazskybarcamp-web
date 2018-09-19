@@ -1,0 +1,31 @@
+<section>
+    <div class="wrapper bg-gray">
+        <div class="container">
+            <h1 id="speakers"><span class="dot-end">Speakři</span></h1>
+
+            <ul class="row people-list mt-md">
+                {foreach $talks as $talk}
+                    {* When program visible, skip speakers not listed in Program *}
+                    {php if($isProgram && $talk->program->countStored() == 0) continue;}
+                    {var $conferee = $talk->conferee}
+                    <li>
+                        <a href="{plink :Conference:talkDetail, 'id' => $talk->id}" class="item">
+                            <div class="item-image" style="background-image: url({$conferee->pictureUrl})"></div>
+                            <div class="item-content">
+                                <h2 class="item-title">{$conferee->name}</h2>
+                                <span class="item-meta" title="{$conferee->bio|stripHtml}">{$conferee->bio|stripHtml|truncate:40}</span>
+                                <div class="item-text" title="{$talk->description|stripHtml}">{$talk->description|stripHtml|truncate:70}</div>
+                                <span class="item-link">{$talk->title}</span>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+
+            {*<div class="text-center mt-xs">
+                <a href="#" class="btn btn-brand btn-section mt-xs">Zobrazit všechny přednášející</a>
+            </div>*}
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+    web:
+        build:
+            context: docker/web
+        ports:
+            - "8002:80"
+        volumes:
+            - ".:/var/www/html:cached"
+        restart: always
+        environment:
+            NETTE_DEBUG: 1
+            XDEBUG_CONFIG: "remote_host=docker.for.mac.localhost"
+        depends_on:
+            - mysqldb
+    mysqldb:
+        image: mariadb
+        container_name: prazskybarcampweb_mysqldb_1
+        restart: always
+        ports:
+            - "8687:3306"
+        volumes:
+            - "./docker/mysql/data:/var/lib/mysql"
+            - "./docker/mysql/conf.d:/etc/mysql/conf.d"
+        environment:
+            MYSQL_DATABASE: prazskybarcamp
+            MYSQL_ROOT_PASSWORD: prazskybarcamp

@@ -1,0 +1,183 @@
+{block content}
+<div class="hero">
+    <div class="hero-slider-container">
+        <div class="hero-slider">
+            <div class="hero-slide" style="background-image: url('{$basePath}/img/hero-slider/hero-slider-1.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('{$basePath}/img/hero-slider/hero-slider-2.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('{$basePath}/img/hero-slider/hero-slider-3.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('{$basePath}/img/hero-slider/hero-slider-4.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('{$basePath}/img/hero-slider/hero-slider-5.jpg')"></div>
+        </div>
+    </div>
+
+    <div class="hero-content">
+        <div class="container">
+            <div class="hero-slogan">
+                <span class="dot-end">Potkáme se u Kolína</span>
+            </div>
+            <h2 class="hero-subtitle">Otevřená konference o podnikání,<br>vzdělávání  a osobním rozvoji. Vstup zdarma.</h2>
+            <h1 class="hero-title">#prazskybarcamp</h1>
+            <span class="hero-date">{$dates->event|date:'j. n. Y \o\d G:i'}</span>
+            <a href="#jak-k-nam" class="scrollto">Podnikatelský inkubátor CEROP Kolín</a>
+
+            <div class="hero-numbers">
+                <div n:if="$counts->conferee" class="item">
+                    <span class="item-number">{$counts->conferee}<span>+</span></span> účastníků
+                </div>
+                <div n:if="$counts->talks" class="item">
+                    <span class="item-number">{$counts->talks}<span>+</span></span> přednášek
+                </div>
+                <div n:if="$counts->workshops" class="item">
+                    <span class="item-number">{$counts->workshops}</span> workshopů
+                </div>
+                <div n:if="$counts->warmupparty" class="item">
+                    <span class="item-number">{$counts->warmupparty}</span> warp-up party
+                </div>
+                <div n:if="$counts->afterparty" class="item">
+                    <span class="item-number">{$counts->afterparty}</span> afterparty
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <a n:tag-if="$features->conferee" href="{link Sign:conferee}">
+                    <span class="btn btn-lg btn-brand btn-section {if !$features->conferee}disabled{/if}" title="Přihlášení je možné od {$dates->talks|date:'j. n. Y'}">
+                        Získat vstupenku (zdarma)
+                    </span>
+                </a>
+                {*<a n:tag-if="$features->talks" href="{link Sign:talk}">
+                    <span class="btn btn-lg btn-default-bordered btn-section {if !$features->talks}disabled{/if}" title="Vypsání přednášky je možné od {$dates->talks|date:'j. n. Y'}">
+                        Vypsat přednášku
+                    </span>
+                </a>*}
+            </div>
+
+            <span class="hero-note">Zbývá <span>{$counts->conferee_left}</span> vstupenek</span>
+            {*<span class="hero-note">Už se přihlásilo <span>219</span> účastníků a je vypsáno <span>32</span> přednášek</span>*}
+        </div>
+    </div>
+</div>
+
+<div class="icons-info">
+    <div class="item">
+        <span class="icon icon-calendar"></span>
+        <b>{$dates->event|date:'j. n. Y'}</b><br />
+        {$dates->event|date:'G:i'}
+    </div>
+    <div class="item">
+        <span class="icon icon-placeholder"></span>
+        <b>CEROP Kolín</b><br />
+        Sokolská 1095, 280 02 Kolín<br />
+        <a href="https://goo.gl/maps/oSkA2JYyEfS2" target="_blank" rel="noopener">Zobrazit na mapě</a>
+    </div>
+    <div class="item">
+        <span class="icon icon-transport"></span>
+        <b>Parkoviště</b> s celkovou<br />
+        kapacitou 60 míst
+    </div>
+    <div class="item">
+        <span class="icon icon-cutlery"></span>
+        <b>Malé občerstvení zajištěno</b><br />
+        + v okolí jsou skvělé restaurace
+    </div>
+    <div class="item">
+        <span class="icon icon-meeting"></span>
+        <b>Doprovodný program: </b><br />
+        Ochutnávka rumů<br>s Pavlem Ungrem
+    </div>
+</div>
+
+<section>
+    <div class="wrapper bg-gray">
+        <div class="container-wide text-center">
+            <h1><span class="dot-end" id="schedule-scroll-point">Harmonogram</span></h1>
+            <div class="perex">Barcamp je otevřená konference, kde si sami účastníci vyberou přednášky na základě hlasování. Vstup je zcela zdarma, stačí se jen přihlásit. Na Barcampu přednáší jak odborníci, tak samotní účastníci, kteří mají lidem co říci.</div>
+
+            {control schedule}
+
+        </div>
+    </div>
+</section>
+
+{control program}
+
+<section>
+    <div class="wrapper">
+        <div class="container-wide text-center">
+            <h1><span class="dot-end">Registrace</span></h1>
+
+            {control signupButtons}
+
+            {if}
+                {var $socialCount = 0}
+                <div class="social">
+                    <a n:if="$socialUrls->facebook" href="{$socialUrls->facebook}" class="item">
+                        <span class="icon icon-facebook"></span>
+                        Facebook
+                        {php $socialCount++}
+
+                    </a>
+                    <a n:if="$socialUrls->twitter" href="{$socialUrls->twitter}" class="item">
+                        <span class="icon icon-twitter-1"></span>
+                        Twitter
+                        {php $socialCount++}
+
+                    </a>
+                    <a n:if="$socialUrls->youtube" href="{$socialUrls->youtube}" class="item">
+                        <span class="icon icon-youtube"><span class="path1"></span><span class="path2"></span></span>
+                        Youtube
+                        {php $socialCount++}
+
+                    </a>
+                    <a n:if="$socialUrls->instagram" href="{$socialUrls->instagram}" class="item">
+                        <span class="icon">
+                            <img src="{$basePath}/img/instagram.svg" alt="instagram" width="50" height="50">
+                        </span>
+                        Instagram
+                        {php $socialCount++}
+                    </a>
+                </div>
+            {/if $socialCount}
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="cta-basic" id="jak-k-nam" style="background-image: url('../img/bg-cerop.jpg');">
+        <div class="container-condensed">
+            <h2>Kde se bude konat Barcamp Kolín?</h2>
+
+            <p>Barcamp bude probíhat v krásných renovovaných prostorech <a
+                    href="http://www.cestyapamatky.cz/kolinsko/kolin/zamek">bývalého kolínského zámku</a>, dnes
+                známých jako podnikatelský inkubátor CEROP. Přednášet se bude v horním a dolním historickém sálu.</p>
+
+            <div class="item-note"><a href="https://goo.gl/maps/au928nicYFC2" class="link-barcamp" target="_blank" rel="noopener">Zobrazit CEROP na mapě</a></div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="wrapper">
+        <div class="container-wide text-center">
+
+            {control newsletterForm}
+
+        </div>
+    </div>
+</section>
+
+
+{control speakerList}
+
+{control faq}
+
+<section>
+    <div class="wrapper">
+        <div class="container text-center">
+            <h1 class="lg"><span class="dot-end">Partneři</span></h1>
+
+            {control partners}
+
+            <a n:href="partners" class="link-arrow mt-md">Staňte se také partnerem Barcampu Kolín</a>
+        </div>
+    </div>
+</section>

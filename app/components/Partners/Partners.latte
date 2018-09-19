@@ -1,0 +1,16 @@
+<div class="partners">
+    {foreach $report as $group}
+        <div class="text-gray text-normal mt-sm">{$group[name]|noescape}</div>
+
+        {foreach $group[partners] as $partner}
+            <a n:tag-if="$partner[url]" href="{$partner[url]}" target="_blank" rel="noopener">
+                {if $partner[picture_url]}
+                <img src="{$partner[picture_url]}" alt="{$partner[name]}" title="{$partner[name]}"
+                     height="{$partner[height]}">
+                {else}
+                    {$partner[name]|noescape}
+                {/if}
+            </a>
+        {/foreach}
+    {/foreach}
+</div>

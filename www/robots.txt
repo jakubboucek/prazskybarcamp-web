@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /prihlaseni
+Disallow: /odhlaseni
+Disallow: /obnovit-heslo
+Disallow: /registrace
+Disallow: /vypsani-prednasky
+Disallow: /profil
+Disallow: /admin
