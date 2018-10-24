@@ -65,11 +65,16 @@ body.no-js .js-only {
     .vertical-middle;
 }
 
+@header-height: 8rem;
+
 .header {
     color: @color-default;
     background-color: #001630;
-    height: 8rem;
-    position: relative;
+    height: @header-height;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: 99;
 }
 
@@ -151,25 +156,12 @@ body.no-js .js-only {
     display: none;
 }
 
-.hp {
-    .header {
-        background-color: transparent;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-    }
+main {
+    padding-top: @header-height;
+}
 
-    .logo {
-        a {
-            margin-top: 1.5rem;
-
-            img {
-                width: 31rem;
-                height: 7rem;
-            }
-        }
-    }
+.hp main {
+    padding-top: 0;
 }
 
 .hero {
