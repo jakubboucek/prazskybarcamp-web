@@ -493,12 +493,13 @@ class SignPresenter extends BasePresenter
         return $this->signUpFormFactory->create(function (Identity $identity) {
             $user = new User();
             $user->email = $identity->key;
-
-            $this->identityManager->save($identity);
             $this->userManager->save($user);
 
-//            $this->storeEntity($identity, Identity::class);
-//            $this->storeEntity($user, User::class);
+            $identity->user = $user;
+            $this->identityManager->save($identity);
+
+            $this->login($user);
+
             $this->redirect(IResponse::S303_POST_GET, 'conferee');
         });
     }
@@ -525,25 +526,24 @@ class SignPresenter extends BasePresenter
             $user = $restoredUserIdentity->getUser();
             $identity = $restoredUserIdentity->getIdentity();
 
-            $this->userManager->save($user);
-            $this->identityManager->save($identity);
-            $this->confereeManager->save($conferee);
-
+            // Update user by form
             $user->name = $conferee->name;
             $user->email = $conferee->email;
-
-            //Currently not working on weird ORM bug
-            $identity->user = $user;
-
-            $conferee->pictureUrl = $user->pictureUrl;
-            $conferee->user = $user;
-
             $this->userManager->save($user);
 
-            //dirty hack to weird ORM bug
-            $identity->setRawValue('user', $user->id);
-            $this->identityManager->save($identity, false);
-            //hack end
+            // Connect & save Identity if already not
+            if($identity->user === null) {
+                $identity->user = $user;
+            }
+            $this->identityManager->save($identity);
+
+            // Connect Conferee to user and update avatar
+            $conferee->user = $user;
+            $conferee->pictureUrl = $user->pictureUrl;
+            $this->confereeManager->save($conferee);
+
+            //When success
+
 
             $user->addRole('conferee');
             $this->userManager->save($user);
