@@ -33,6 +33,7 @@ class EventInfoProvider
     const URL_TWITTER = 'url.social.twitter';
     const URL_YOUTUBE = 'url.social.youtube';
     const URL_INSTAGRAM = 'url.social.instagram';
+    const URL_LINKEDIN = 'url.social.linkedin';
     const URL_WAY_TO_EVENT = 'url.post.howToWay';
     const URL_OG_IMAGE = 'url.igImage';
 
@@ -90,6 +91,7 @@ class EventInfoProvider
             'twitter' => $this->config->get(self::URL_TWITTER),
             'youtube' => $this->config->get(self::URL_YOUTUBE),
             'instagram' => $this->config->get(self::URL_INSTAGRAM),
+            'linkedin' => $this->config->get(self::URL_LINKEDIN),
             'way' => $this->config->get(self::URL_WAY_TO_EVENT),
             'ogImage' => $this->config->get(self::URL_OG_IMAGE),
         ]);
