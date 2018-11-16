@@ -13,7 +13,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
     && a2enmod rewrite expires  \
     && service apache2 restart
 
-#RUN pecl install xdebug \
-#  && docker-php-ext-enable xdebug \
-#  && echo "xdebug.remote_enable=on" > /usr/local/etc/php/conf.d/xdebug.ini \
-#  && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+RUN pecl install xdebug \
+  && docker-php-ext-enable xdebug \
+  && echo "xdebug.remote_enable=on" > /usr/local/etc/php/conf.d/xdebug.ini \
+  && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
