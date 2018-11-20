@@ -133,6 +133,12 @@
                     </span>
                     {php $socialCount++}
                 </a>
+                <a n:if="$socialUrls->linkedin" href="{$socialUrls->linkedin}" class="item">
+                    <span class="icon">
+                        <img src="{$basePath}/img/linkedin.svg" alt="instagram" width="32" height="32">
+                    </span>
+                    {php $socialCount++}
+                </a>
             </div>
             {/if $socialCount}
 
