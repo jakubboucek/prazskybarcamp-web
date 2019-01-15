@@ -52,7 +52,7 @@
             </span>
             <div class="item-content {if !$urls->way}disabled{/if}">
                 <span class="item-title">Barcamp</span>
-                Barcamp je tady! Začínáme v {$dates->event|date:'G:i'}
+                Barcamp je tady! Začínáme {$dates->event|date:'j. n.'} v {$dates->event|date:'G:i'}
                 <div>
                     <a n:tag-if="$urls->way" n:href="$urls->way"><span class="btn btn-action btn-sm">Jak se tam dostanu?</span></a>
                 </div>
