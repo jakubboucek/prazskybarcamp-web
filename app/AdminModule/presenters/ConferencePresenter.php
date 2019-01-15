@@ -13,6 +13,7 @@ use App\Orm\Talk;
 use App\Orm\UserRole;
 use DateInterval;
 use Nette\Application\UI\Form;
+use Nette\Forms\Controls\Checkbox;
 use Nette\Forms\Controls\HiddenField;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Utils\ArrayHash;
@@ -61,7 +62,7 @@ class ConferencePresenter extends BasePresenter
     }
 
 
-    public function renderConferee()
+    public function renderConferee(): void
     {
         $this->template->count = $this->confereeManager->findAll()->countStored();
     }
@@ -71,7 +72,7 @@ class ConferencePresenter extends BasePresenter
      * @param $name
      * @throws \Ublaboo\DataGrid\Exception\DataGridException
      */
-    public function createComponentConfereeDatagrid($name)
+    public function createComponentConfereeDatagrid($name): void
     {
         $grid = new DataGrid($this, $name);
 
@@ -87,10 +88,9 @@ class ConferencePresenter extends BasePresenter
      * @param $id
      * @throws \Nette\Application\BadRequestException
      */
-    public function renderConfereeEdit($id)
+    public function renderConfereeEdit($id): void
     {
         $conferee = $this->confereeManager->getById($id);
-
         $this->validateConferee($conferee);
 
         $this->template->conferee = $conferee;
@@ -98,6 +98,16 @@ class ConferencePresenter extends BasePresenter
         /** @var HiddenField $idField */
         $idField = $this['confereeDeleteForm']['id'];
         $idField->setDefaultValue($id);
+
+        /** @var HiddenField $idField */
+        $idField = $this['confereeAdminForm']['userId'];
+        $idField->setDefaultValue($conferee->user->id);
+
+        /** @var Checkbox $checkbox */
+        $checkbox = $this['confereeAdminForm']['isAdmin'];
+        $checkbox->setDefaultValue($conferee->user->isInRole('admin'));
+
+
 
         $this['confereeEditForm']->setDefaults([
             'id' => $conferee->id,
@@ -112,7 +122,7 @@ class ConferencePresenter extends BasePresenter
     /**
      * @return Form
      */
-    public function createComponentConfereeEditForm()
+    public function createComponentConfereeEditForm(): Form
     {
         $form = new Form();
 
@@ -138,7 +148,7 @@ class ConferencePresenter extends BasePresenter
     /**
      * @return Form
      */
-    public function createComponentConfereeDeleteForm()
+    public function createComponentConfereeDeleteForm(): Form
     {
         $form = new Form();
 
@@ -159,7 +169,7 @@ class ConferencePresenter extends BasePresenter
      * @throws \Nette\Application\AbortException
      * @throws \Nette\Application\BadRequestException
      */
-    public function onConfereeEditFormSuccess(Form $form, $values)
+    public function onConfereeEditFormSuccess(Form $form, $values): void
     {
         $id = $values->id;
         $conferee = $this->confereeManager->getById($id);
@@ -203,6 +213,52 @@ class ConferencePresenter extends BasePresenter
         }
         $this->redirect('conferee');
     }
+
+    /**
+     * @return Form
+     */
+    public function createComponentConfereeAdminForm(): Form
+    {
+        $form = new Form();
+
+        $form->addHidden('userId');
+        $form->addCheckbox('isAdmin', 'Povolit uživateli přístup do admina');
+        $form->addSubmit('save', 'Uložit nastavení práv')->setOption('primary', true);
+
+        $form->addProtection();
+
+        $form->onSuccess[] = [$this, 'onConfereeAdminFormSuccess'];
+
+        return $form;
+    }
+
+    /**
+     * @param Form $form
+     * @param ArrayHash $values
+     * @throws \Nette\Application\AbortException
+     * @throws \Nette\Application\BadRequestException
+     */
+    public function onConfereeAdminFormSuccess(Form $form, $values): void
+    {
+        /** @var Checkbox $isAdmin */
+        $isAdmin = $form['isAdmin'];
+        $user = $this->userManager->getById($values->userId);
+        if ($isAdmin->isFilled()) {
+            $user->addRole('admin');
+            $this->userManager->save($user);
+            $this->flashMessage('Uživateli byl povolen přístup adminu. Nyní by se měl odhlásit a přihlásit.', 'success');
+        }
+        else {
+            foreach ($user->role as $userRole) {
+                if($userRole->role === 'admin') {
+                    $this->userManager->removeRole($userRole);
+                    $this->flashMessage('Uživateli byl odebrán přístup adminu. Nyní by se měl odhlásit a přihlásit.', 'success');
+                }
+            }
+        }
+        $this->redirect('//this');
+    }
+
 
 
     /**
@@ -755,9 +811,7 @@ class ConferencePresenter extends BasePresenter
     {
         $durations = $this->talkManager->getDurations();
         $durations += $this->talkManager->getDurationChoice();
-        $durations = array_filter($durations, function ($item) {
-            return intval($item);
-        }, ARRAY_FILTER_USE_KEY);
+        $durations = array_filter($durations, 'intval', ARRAY_FILTER_USE_KEY);
 
         $form = new Form();
 
@@ -765,12 +819,12 @@ class ConferencePresenter extends BasePresenter
 
         $form->addHidden('id');
 
-        $type = $form->addSelect('type', 'Type', [null => '== Vyberte =='] + $this->getMergedTalks())
-            ->setRequired(true)
+        $form->addSelect('type', 'Type', [null => '== Vyberte =='] + $this->getMergedTalks())
+            ->setRequired()
             ->setOption('description', 'Legenda symbolů: ● - již v programu; ○ - není v programu; [123] - počet hlasů')
             ->getControlPrototype()->appendAttribute('class', 'ui search dropdown form-control');
-        $form->addRadioList('room', 'Místnost', $this->talkManager->getRooms())->setRequired(true);
-        $form->addText('time', 'Čas konání')->setType('time')->setRequired(true);
+        $form->addRadioList('room', 'Místnost', $this->talkManager->getRooms())->setRequired();
+        $form->addText('time', 'Čas konání')->setType('time')->setRequired();
         $form->addRadioList('duration', 'Délka v minutách', $durations)->setRequired();
 
         $form->addSubmit('submit', 'Uložit')->setOption('primary', true);

@@ -21,7 +21,7 @@ class User extends Entity
      * @return Conferee
      * @throws ConfereeNotFound
      */
-    public function getObligatoryConferee()
+    public function getObligatoryConferee(): Conferee
     {
         $conferee = $this->conferee;
 
@@ -36,10 +36,26 @@ class User extends Entity
     /**
      * @param $roleName
      */
-    public function addRole($roleName)
+    public function addRole($roleName): void
     {
         $role = new UserRole();
         $role->role = $roleName;
         $role->user = $this;
+    }
+
+
+    /**
+     * @param string $role
+     * @return bool
+     */
+    public function isInRole(string $role): bool
+    {
+        foreach ($this->role as $userRole) {
+            if($userRole->role === $role) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
