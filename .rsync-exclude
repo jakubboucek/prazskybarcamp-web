@@ -17,4 +17,5 @@
 /package-lock.json
 /temp/*
 /tests
+/www/blog/*
 /www/upload/*
