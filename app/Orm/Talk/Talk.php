@@ -22,7 +22,6 @@ use Nextras\Orm\Relationships\OneHasMany;
  * @property string|null $notes
  * @property string|null $extended
  * @property \DateTimeImmutable $created            {default now}
- * @property array $expandedExtenstions
  */
 class Talk extends Entity
 {
