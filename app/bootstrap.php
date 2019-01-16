@@ -4,7 +4,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $configurator = new Nette\Configurator;
 
-require_once __DIR__ . '/model/DebugEnabler.php';
 App\Model\DebugEnabler::setWorkDir(__DIR__ . '/../temp');
 
 $configurator->setDebugMode(App\Model\DebugEnabler::isDebug() ? true : []);

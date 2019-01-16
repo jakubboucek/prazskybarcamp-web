@@ -38,5 +38,10 @@
         "nette/tester": "^2.0",
         "squizlabs/php_codesniffer": "^3.2"
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+        "files": [
+            "app/model/DebugEnabler.php"
+        ]
+    }
 }
