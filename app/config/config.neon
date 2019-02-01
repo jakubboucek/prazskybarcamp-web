@@ -3,7 +3,7 @@
 # https://nette.org/security-warning
 #
 parameters:
-    currentYear: 2018
+    currentYear: 2019
     database:
         driver: mysqli
         host: prazskybarcampweb_mysqldb_1
