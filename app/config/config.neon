@@ -44,11 +44,7 @@ nextras.orm:
     model: App\Orm\Orm
 
 mail:
-    smtp: true
-    host: email-smtp.eu-west-1.amazonaws.com
-    username: AKIAIDJE5YT6VMZ7WNWA
-    password: {app-password}
-    secure: ssl
+    smtp: false
 
 tracy:
     maxDepth: 4
