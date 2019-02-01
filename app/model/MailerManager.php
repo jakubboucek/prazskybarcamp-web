@@ -140,6 +140,10 @@ class MailerManager
             $mail->addTo($recipient);
         }
 
+        foreach ((array) $this->config['bcc'] as $bcc) {
+            $mail->addBcc($bcc);
+        }
+
         $this->mailer->send($mail);
     }
 

@@ -17,6 +17,7 @@ parameters:
         default_graph_version: v2.2
     mail:
         from: "Pražský Barcamp <info@prazskybarcamp.cz>"
+        bcc: ["kosik.pa@seznam.cz"]
     api_token_secretkey: {secret-token}
 
 
