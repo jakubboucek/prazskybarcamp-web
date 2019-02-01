@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Wedos Hack
+RewriteCond %{REQUEST_URI} !^www/
+RewriteCond %{REQUEST_URI} !^/www/
+RewriteCond %{DOCUMENT_ROOT}/www -d
+RewriteRule (.*) www/$1 [DPI]
+# Wedos Hack
