@@ -10,19 +10,20 @@
 
 {include bootstrap-form confereeEditForm}
 
-
-{var $isAdmin = $conferee->user->isInRole('admin');}
-<details>
-    <summary>Admin práva účastníka
-    {if $isAdmin}
-        <span class="label label-danger">POZOR, je admin</span>
-    {else}
-        <span class="label label-success">OK, není admin</span>
-    {/if}
-    </summary>
-    <p>V této sekci je možné určit, zda tento uživatel má přístup do administrace.</p>
-    {include bootstrap-form confereeAdminForm}
-</details>
+{if $adminable}
+    {var $isAdmin = $conferee->user->isInRole('admin');}
+    <details>
+        <summary>Admin práva účastníka
+        {if $isAdmin}
+            <span class="label label-danger">POZOR, je admin</span>
+        {else}
+            <span class="label label-success">OK, není admin</span>
+        {/if}
+        </summary>
+        <p>V této sekci je možné určit, zda tento uživatel má přístup do administrace.</p>
+        {include bootstrap-form confereeAdminForm}
+    </details>
+{/if}
 
 <details>
     <summary>Smazat účastníka</summary>

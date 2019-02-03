@@ -10,6 +10,7 @@ use App\Orm\Conferee;
 use App\Orm\Identity;
 use App\Orm\Program;
 use App\Orm\Talk;
+use App\Orm\User;
 use App\Orm\UserRole;
 use DateInterval;
 use Nette\Application\UI\Form;
@@ -59,6 +60,8 @@ class ConferencePresenter extends BasePresenter
         $this->talkManager = $talkManager;
         $this->identityManager = $identityManager;
         $this->userManager = $userManager;
+
+        parent::__construct();
     }
 
 
@@ -99,14 +102,23 @@ class ConferencePresenter extends BasePresenter
         $idField = $this['confereeDeleteForm']['id'];
         $idField->setDefaultValue($id);
 
-        /** @var HiddenField $idField */
-        $idField = $this['confereeAdminForm']['userId'];
-        $idField->setDefaultValue($conferee->user->id);
+        $this->template->adminable = true;
 
-        /** @var Checkbox $checkbox */
-        $checkbox = $this['confereeAdminForm']['isAdmin'];
-        $checkbox->setDefaultValue($conferee->user->isInRole('admin'));
+        if ($conferee->user instanceof User) {
+            /** @var HiddenField $idField */
+            $idField = $this['confereeAdminForm']['userId'];
+            $idField->setDefaultValue($conferee->user->id);
 
+            /** @var Checkbox $checkbox */
+            $checkbox = $this['confereeAdminForm']['isAdmin'];
+            $checkbox->setDefaultValue($conferee->user->isInRole('admin'));
+        } else {
+            /** @var Checkbox $checkbox */
+            $checkbox = $this['confereeAdminForm']['isAdmin'];
+            $checkbox->setDisabled();
+
+            $this->template->adminable = false;
+        }
 
 
         $this['confereeEditForm']->setDefaults([
@@ -214,6 +226,7 @@ class ConferencePresenter extends BasePresenter
         $this->redirect('conferee');
     }
 
+
     /**
      * @return Form
      */
@@ -232,6 +245,7 @@ class ConferencePresenter extends BasePresenter
         return $form;
     }
 
+
     /**
      * @param Form $form
      * @param ArrayHash $values
@@ -246,19 +260,19 @@ class ConferencePresenter extends BasePresenter
         if ($isAdmin->isFilled()) {
             $user->addRole('admin');
             $this->userManager->save($user);
-            $this->flashMessage('Uživateli byl povolen přístup adminu. Nyní by se měl odhlásit a přihlásit.', 'success');
-        }
-        else {
+            $this->flashMessage('Uživateli byl povolen přístup adminu. Nyní by se měl odhlásit a přihlásit.',
+                'success');
+        } else {
             foreach ($user->role as $userRole) {
-                if($userRole->role === 'admin') {
+                if ($userRole->role === 'admin') {
                     $this->userManager->removeRole($userRole);
-                    $this->flashMessage('Uživateli byl odebrán přístup adminu. Nyní by se měl odhlásit a přihlásit.', 'success');
+                    $this->flashMessage('Uživateli byl odebrán přístup adminu. Nyní by se měl odhlásit a přihlásit.',
+                        'success');
                 }
             }
         }
         $this->redirect('//this');
     }
-
 
 
     /**
