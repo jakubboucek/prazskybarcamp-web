@@ -25,7 +25,7 @@ class FeedFactory
     /**
      * @return FeedControl
      */
-    public function create()
+    public function create(): FeedControl
     {
         return new FeedControl($this->postReader);
     }

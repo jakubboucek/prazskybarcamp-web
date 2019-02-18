@@ -4,10 +4,13 @@ namespace App\Presenters;
 
 use App\Components\Faq\FaqControl;
 use App\Components\Faq\IFaqControlFactory;
+use App\Components\Feed\FeedControl;
+use App\Components\Feed\FeedFactory;
 use App\Components\Newsletter\NewsletterSignupControl;
 use App\Components\Newsletter\NewsletterSignupFactory;
 use App\Components\Partners\IPartnersControlFactory;
 use App\Components\Program\IProgramControlFactory;
+use App\Components\Program\ProgramControl;
 use App\Components\Schedule\IScheduleControlFactory;
 use App\Components\Schedule\ScheduleControl;
 use App\Components\SignupButtons\SignupButtonsControl;
@@ -49,6 +52,10 @@ class HomepagePresenter extends BasePresenter
      * @var IPartnersControlFactory
      */
     private $partnersControlFactory;
+    /**
+     * @var FeedFactory
+     */
+    private $feedFactory;
 
 
     /**
@@ -60,6 +67,7 @@ class HomepagePresenter extends BasePresenter
      * @param ISpeakerListControlFactory $speakerListFactory
      * @param IProgramControlFactory $programFactory
      * @param IPartnersControlFactory $partnersControlFactory
+     * @param FeedFactory $feedFactory
      */
     public function __construct(
         IScheduleControlFactory $scheduleFactory,
@@ -68,7 +76,8 @@ class HomepagePresenter extends BasePresenter
         IFaqControlFactory $faqFactory,
         ISpeakerListControlFactory $speakerListFactory,
         IProgramControlFactory $programFactory,
-        IPartnersControlFactory $partnersControlFactory
+        IPartnersControlFactory $partnersControlFactory,
+        FeedFactory $feedFactory
     ) {
         parent::__construct();
         $this->scheduleFactory = $scheduleFactory;
@@ -78,6 +87,7 @@ class HomepagePresenter extends BasePresenter
         $this->speakerListFactory = $speakerListFactory;
         $this->programFactory = $programFactory;
         $this->partnersControlFactory = $partnersControlFactory;
+        $this->feedFactory = $feedFactory;
     }
 
 
@@ -95,7 +105,7 @@ class HomepagePresenter extends BasePresenter
     /**
      * @return ScheduleControl
      */
-    protected function createComponentSchedule()
+    protected function createComponentSchedule(): ScheduleControl
     {
         return $this->scheduleFactory->create();
     }
@@ -104,7 +114,7 @@ class HomepagePresenter extends BasePresenter
     /**
      * @return SignupButtonsControl
      */
-    protected function createComponentSignupButtons()
+    protected function createComponentSignupButtons(): SignupButtonsControl
     {
         return $this->buttonsFactory->create();
     }
@@ -113,7 +123,7 @@ class HomepagePresenter extends BasePresenter
     /**
      * @return NewsletterSignupControl
      */
-    protected function createComponentNewsletterForm()
+    protected function createComponentNewsletterForm(): NewsletterSignupControl
     {
         return $this->newsletterFactory->create();
     }
@@ -122,7 +132,7 @@ class HomepagePresenter extends BasePresenter
     /**
      * @return FaqControl
      */
-    protected function createComponentFaq()
+    protected function createComponentFaq(): FaqControl
     {
         return $this->faqFactory->create();
     }
@@ -131,16 +141,16 @@ class HomepagePresenter extends BasePresenter
     /**
      * @return SpeakerListControl
      */
-    protected function createComponentSpeakerList()
+    protected function createComponentSpeakerList(): SpeakerListControl
     {
         return $this->speakerListFactory->create();
     }
 
 
     /**
-     * @return mixed
+     * @return ProgramControl
      */
-    public function createComponentProgram()
+    public function createComponentProgram(): ProgramControl
     {
         return $this->programFactory->create();
     }
@@ -149,8 +159,17 @@ class HomepagePresenter extends BasePresenter
     /**
      * @return \App\Components\Partners\PartnersControl
      */
-    protected function createComponentPartners()
+    protected function createComponentPartners(): \App\Components\Partners\PartnersControl
     {
         return $this->partnersControlFactory->create();
     }
+
+    /**
+     * @return FeedControl
+     */
+    protected function createComponentFeed(): FeedControl
+    {
+        return $this->feedFactory->create();
+    }
+
 }

@@ -39,11 +39,10 @@
             <div class="header-nav">
                 <ul class="nav">
                     <li {ifCurrent :Homepage:}class="active"{/ifCurrent}><a href="{link :Homepage:}"><span class="nav-link">Úvod</span></a></li>
+                    <li><a href="/blog/"><span class="nav-link">Blog</span></a></li>
                     <li {ifCurrent :Homepage:history}class="active"{/ifCurrent}><a href="{link :Homepage:history}"><span class="nav-link">O akci</span></a></li>
-                    {*<li><a href="#program" class="scrollto"><span class="nav-link">Program</span></a></li>*}
                     <li n:if="$features->program" {ifCurrent :Conference:program}class="active"{/ifCurrent}><a href="{link :Conference:program}"><span class="nav-link">Program</span></a></li>
                     <li n:if="$features->talks_show" {ifCurrent :Conference:talks}class="active"{/ifCurrent}><a href="{link :Conference:talks}"><span class="nav-link">Přednášky</span></a></li>
-                    {*<li><a href="#"><span class="nav-link">Workshopy</span></a></li>*}
                     {*<li><a href="#"><span class="nav-link">Afterpárty</span></a></li>*}
                     <li {ifCurrent Homepage:contact}class="active"{/ifCurrent}><a href="{link :Homepage:contact}"><span class="nav-link">Kontakt</span></a></li>
                     {if $user->isLoggedIn()}
