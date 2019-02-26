@@ -111,6 +111,19 @@ class ConferencePresenter extends BasePresenter
 
 
     /**
+     * @throws \Nette\Application\AbortException
+     */
+    public function actionTalksVoting(): void
+    {
+        if($this->user->isLoggedIn()) {
+            $this->redirect('talks');
+        }
+
+        $this->flashMessage('Abyste mohli hlasovat o přednáškách, tak se prosím nejdříve přihlaste');
+        $this->redirect('Sign:in',['backlink'=> $this->storeRequest()]);
+    }
+
+    /**
      * @secured
      * @param int $talkId
      * @throws \Nette\Application\AbortException

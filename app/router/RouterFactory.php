@@ -39,6 +39,7 @@ class RouterFactory
         $router[] = new Route('registrace', 'Sign:conferee');
         $router[] = new Route('vypsani-prednasky', 'Sign:talk');
         $router[] = new Route('[!2019/]prednasky', 'Conference:talks');
+        $router[] = new Route('[!2019/]prednasky/hlasovani', 'Conference:talksVoting');
         $router[] = new Route('[!2019/]prednaska', 'Conference:talks', Route::ONE_WAY);
         $router[] = new Route('[!2019/]prednaska/<id \d+>', 'Conference:talkDetail');
         $router[] = new Route('[!2019/]prednasky/<id \d+>', 'Conference:talkDetail', Route::ONE_WAY);
