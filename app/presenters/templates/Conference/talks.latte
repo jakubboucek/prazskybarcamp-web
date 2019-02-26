@@ -6,7 +6,7 @@
         <h1 class="dot-end">Přednášky</h1>
         <p>Přednášet může kdokoliv na jakékoliv téma. Přednášející by měl naplňovat hlavní myšlenku barcampu, a tou je sdílení a předávání svých zkušeností zdarma účastníkům akce.</p>
         <p>Svou přednášku si může přednášející vypsat ihned po začátku registrace. O přednáškách, které se dostanou do programu barcampu, hlasují účastníci. Zhruba 2 týdny před konáním barcampu je zveřejněn podrobný program.</p>
-        <p>Délka přednášky je 20-40 minut. Po konci přednášky jsou účastníci vyzváni k dotazům.</p>
+        <p>Délka přednášky je 30 minut. Po konci přednášky jsou účastníci vyzváni k dotazům.</p>
         <p>Přednášky je možné vypisovat od {$dates->talks|date:'j. n.'}</p>
     </div>
 </div>
@@ -23,7 +23,7 @@
                 {elseif $user->isInRole('speaker')}
                     <a href="{link User:talk}" class="btn btn-sm btn-secondary">Upravit mojí přednášku</a>
                 {else}
-                    <a href="{link Sign:talk}" class="btn btn-sm btn-action">Vypiš si svou přednášku</a>
+                    <a href="{link Sign:talk}" class="btn btn-sm btn-secondary">Vypiš si svou přednášku</a>
                 {/if}
             </div>
         </div>
