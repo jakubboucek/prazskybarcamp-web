@@ -10,13 +10,6 @@
     RewriteEngine On
     # RewriteBase /
 
-    # use HTTPS
-    RewriteCond %{HTTPS} !on
-    RewriteCond %{HTTP_HOST} !^localhost
-    RewriteRule .? https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-
-    RewriteRule ^2018/(.*)$ /2019/$1 [R=301,L,NE,QSA]
-
     # prevents files starting with dot to be viewed by browser
     RewriteRule /\.|^\.(?!well-known/) - [F]
 
@@ -54,14 +47,3 @@ ExpiresByType application/x-font-opentype "access plus 1 month"
 ExpiresByType image/svg+xml "access plus 1 month"
 ExpiresByType application/x-font-ttf "access plus 1 month"
 ExpiresByType application/font-woff "access plus 1 month"
-# BEGIN WordPress
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
-</IfModule>
-
-# END WordPress

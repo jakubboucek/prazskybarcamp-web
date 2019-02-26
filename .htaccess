@@ -1,5 +1,10 @@
 RewriteEngine On
 
+# use HTTPS
+RewriteCond %{HTTPS} !on
+RewriteCond %{HTTP_HOST} !^localhost
+RewriteRule .? https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
+
 # Wedos subdomains (with or without www on the start)
 RewriteCond %{REQUEST_URI} !^subdom/
 RewriteCond %{REQUEST_URI} !^/subdom/
@@ -11,14 +16,21 @@ RewriteRule (.*) subdom/%2/$1 [DPI]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^subdom/[^/]+/(.+[^/])$ /$1/ [R]
 
-###
 ### Rewrite www.domain.com -> domain.com
-###
 RewriteCond %{HTTP_HOST} .
 RewriteCond %{HTTP_HOST} !^(2017\.|2018\.)?prazskybarcamp\.cz [NC]
 RewriteRule .? https://prazskybarcamp.cz%{REQUEST_URI} [R=301,L]
 
+# Fix Wedos weird bug
+RewriteCond %{HTTP_HOST} ^prazskybarcamp\.cz [NC]
+RewriteCond %{REQUEST_URI} ^blog$ [OR]
+RewriteCond %{REQUEST_URI} ^/blog$
+RewriteRule .* /blog/ [R=301,L]
+
 ## Wedos Hack
 RewriteCond %{HTTP_HOST} ^prazskybarcamp\.cz [NC]
-RewriteRule (.*) www/$1
+RewriteCond %{REQUEST_URI} !^www/
+RewriteCond %{REQUEST_URI} !^/www/
+RewriteCond %{DOCUMENT_ROOT}/www -d
+RewriteRule (.*) www/$1 [L]
 # Wedos Hack
