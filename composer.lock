@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3dc574421857c6a11794ed66174ecf7",
+    "content-hash": "b7f7ae79b3fb67014e13d89882879d67",
     "packages": [
         {
             "name": "facebook/graph-sdk",
@@ -63,6 +63,48 @@
                 "sdk"
             ],
             "time": "2018-12-11T22:56:31+00:00"
+        },
+        {
+            "name": "jakubboucek/nette-debug-enabler",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jakubboucek/nette-debug-enabler.git",
+                "reference": "5da5020bbcce5417e5d67022083898ae9c2525f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jakubboucek/nette-debug-enabler/zipball/5da5020bbcce5417e5d67022083898ae9c2525f1",
+                "reference": "5da5020bbcce5417e5d67022083898ae9c2525f1",
+                "shasum": ""
+            },
+            "require": {
+                "nette/utils": "^2.4 || ^3.0",
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Bouček",
+                    "homepage": "https://www.jakub-boucek.cz"
+                }
+            ],
+            "description": "Debug mode enabler for Nette framework - safe and clean way to automatize Nette Debug mode at specific environment",
+            "keywords": [
+                "debug",
+                "nette",
+                "tracy"
+            ],
+            "time": "2018-09-20T06:56:56+00:00"
         },
         {
             "name": "kdyby/forms-replicator",

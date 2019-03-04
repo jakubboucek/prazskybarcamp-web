@@ -3,7 +3,7 @@
 namespace App\AdminModule\Presenters;
 
 use App\Model\ApiTokenManager;
-use App\Model\DebugEnabler;
+use JakubBoucek\DebugEnabler\DebugEnabler;
 use Nette\Application\Request;
 use Ublaboo\DataGrid\DataGrid;
 

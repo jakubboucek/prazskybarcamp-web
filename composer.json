@@ -31,15 +31,11 @@
         "nextras/secured-links": "^1.4",
         "facebook/graph-sdk": "^5.6",
         "nextras/orm": "^3.0",
-        "ublaboo/datagrid": "^5.6"
+        "ublaboo/datagrid": "^5.6",
+        "jakubboucek/nette-debug-enabler": "^1.1.0"
     },
     "require-dev": {
         "dg/ftp-deployment": "^3.1"
     },
-    "minimum-stability": "stable",
-    "autoload": {
-        "files": [
-            "app/model/DebugEnabler.php"
-        ]
-    }
+    "minimum-stability": "stable"
 }
