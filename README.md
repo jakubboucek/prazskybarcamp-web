@@ -11,7 +11,7 @@ Po stažení repozitáře naisntalujte závislosti:
 
     composer install
 
-Vytvořte soubor `app/config/config.local.neon` (není verzován v Gitu). Může být i prázdný.
+Vytvořte soubor `local/config.local.neon` (není verzován v Gitu). Může být i prázdný.
 
 Úpravy JS a CSS
 ---------------
@@ -77,7 +77,27 @@ V PHP jsou potřeba rozšření: mysqli, pdo_mysql.
 Požadavky pro vývoj
 -----------------
 
-Composer, NPM 
+Composer, NPM
+
+Deploy
+------
+
+Před prvním deployem je potřeba vytvořit soubor `local/deployment.local.php`, ve formátu:
+```php
+<?php
+
+return [
+    'user' => '{ftp user name}',
+    'password' => '{ftp user password}',
+];
+``` 
+
+Samotný deploy se pak spustí příkazem: 
+```
+php vendor/bin/deployment deployment.php
+```
+
+Více informací: [FTP Deployment](https://github.com/dg/ftp-deployment#readme)
 
 
 License
