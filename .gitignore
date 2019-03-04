@@ -1,4 +1,5 @@
 assets/bower_components/*
+local/*
 log/*
 node_modules/*
 temp/*
@@ -6,7 +7,6 @@ vendor/*
 !.gitignore
 !.htaccess
 !web.config
-app/config/config.local.neon
 docker/mysql/data/*
 /nbproject/
 www/upload
