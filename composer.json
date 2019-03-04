@@ -31,12 +31,9 @@
         "nextras/secured-links": "^1.4",
         "facebook/graph-sdk": "^5.6",
         "nextras/orm": "^3.0",
-        "ublaboo/datagrid": "^5.6",
-        "asaritech/ukey1-php-sdk": "^3.0"
+        "ublaboo/datagrid": "^5.6"
     },
     "require-dev": {
-        "nette/tester": "^2.0",
-        "squizlabs/php_codesniffer": "^3.2",
         "dg/ftp-deployment": "^3.1"
     },
     "minimum-stability": "stable",
