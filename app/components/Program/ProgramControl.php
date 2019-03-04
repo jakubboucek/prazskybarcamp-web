@@ -41,9 +41,10 @@ class ProgramControl extends Control
      * @throws \App\Model\InvalidEnumeratorSetException
      * @throws \Exception
      */
-    public function render()
+    public function render(): void
     {
         if($this->infoProvider->getFeatures()['program'] !== true) {
+            $this->renderClosed();
             return;
         }
 
@@ -60,6 +61,19 @@ class ProgramControl extends Control
 
         $this->template->categories = $this->talkManager->getCategories();
         $this->template->rooms = $this->talkManager->getRooms();
+
+        $this->template->render();
+    }
+
+
+    /**
+     * @throws \Nette\Utils\JsonException
+     */
+    protected function renderClosed(): void
+    {
+        $this->template->setFile(__DIR__ . '/ProgramClosed.latte');
+
+        $this->template->dates = $this->infoProvider->getDates();
 
         $this->template->render();
     }
