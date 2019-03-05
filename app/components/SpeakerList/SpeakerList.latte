@@ -10,7 +10,7 @@
                     {var $conferee = $talk->conferee}
                     <li>
                         <a href="{plink :Conference:talkDetail, 'id' => $talk->id}" class="item">
-                            <div class="item-image" style="background-image: url({$conferee->pictureUrl})"></div>
+                            <div class="item-image" {if $conferee->pictureUrl}style="background-image: url({$conferee->pictureUrl})"{/if}></div>
                             <div class="item-content">
                                 <h2 class="item-title">{$conferee->name}</h2>
                                 <span class="item-meta" title="{$conferee->bio|stripHtml}">{$conferee->bio|stripHtml|truncate:40}</span>
