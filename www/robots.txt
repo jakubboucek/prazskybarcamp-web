@@ -6,3 +6,5 @@ Disallow: /registrace
 Disallow: /vypsani-prednasky
 Disallow: /profil
 Disallow: /admin
+Disallow: /microsoft
+Disallow: /ochrana-osobnich-dat
