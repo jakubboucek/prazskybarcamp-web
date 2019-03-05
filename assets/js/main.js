@@ -455,7 +455,11 @@ barcamp.talkVote = function () {
             $('.item-count', $item).text(json.votes);
             $('.is-voted,.is-not-voted', $item).toggle();
         }).fail(function(error) {
-            alert('Váš hlas se nepovedlo uložit. Omlouváme se. Zkuste to prosím znovu.');
+            var message = 'Váš hlas se nepovedlo uložit. Omlouváme se. Zkuste to prosím znovu.';
+            if(error.responseJSON && error.responseJSON.error) {
+                message = error.responseJSON.error;
+            }
+            alert(message);
             console.log(error);
         });
     });

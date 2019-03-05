@@ -134,9 +134,9 @@ class TalkManager
     /**
      * @param int $userId
      * @param int $talkId
-     * @throws ForeignKeyConstraintViolationException
+     * @throws \Nette\Database\UniqueConstraintViolationException
      */
-    public function addVote($userId, $talkId)
+    public function addVote($userId, $talkId): void
     {
         $this->database->table(self::TABLE_TALK_VOTES_NAME)
             ->insert([

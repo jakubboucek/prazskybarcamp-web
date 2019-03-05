@@ -9,9 +9,12 @@ use App\Orm\Orm;
 use App\Orm\Program;
 use App\Orm\Talk;
 use App\Orm\TalkRepository;
+use Nette\Database\UniqueConstraintViolationException;
 use Nette\Http\IResponse;
 use Nette\Utils\Json;
 use Nextras\Orm\Collection\ICollection;
+use Tracy\Debugger;
+use Tracy\ILogger;
 
 class ConferencePresenter extends BasePresenter
 {
@@ -123,18 +126,38 @@ class ConferencePresenter extends BasePresenter
         $this->redirect('Sign:in',['backlink'=> $this->storeRequest()]);
     }
 
+
     /**
      * @secured
      * @param int $talkId
      * @throws \Nette\Application\AbortException
      */
-    public function handleVote($talkId)
+    public function handleVote($talkId): void
     {
         $userId = $this->user->id;
-        $this->talkManager->addVote($userId, $talkId);
+        try {
+            $this->talkManager->addVote($userId, $talkId);
+        } catch (UniqueConstraintViolationException $e) {
+            Debugger::log($e->getMessage());
+
+            if ($this->isAjax()) {
+
+                $jsonResponse = new \App\Responses\JsonResponse([
+                    'status' => false,
+                    'error' => 'Pro tuto přednášku jste již hlasoval',
+                ]);
+                $jsonResponse->setCode(IResponse::S403_FORBIDDEN);
+                $this->sendResponse($jsonResponse);
+            }
+
+            $this->flashMessage('Pro tuto přednášku jste již hlasoval', 'danger');
+            $this->redirect(IResponse::S303_SEE_OTHER, 'this');
+        }
+
         if ($this->isAjax()) {
             $talk = $this->talkManager->getById($talkId);
             $this->sendJson([
+                'status' => true,
                 'votes' => $talk->votes,
                 'hasVoted' => true,
             ]);
@@ -148,13 +171,14 @@ class ConferencePresenter extends BasePresenter
      * @param int $talkId
      * @throws \Nette\Application\AbortException
      */
-    public function handleUnvote($talkId)
+    public function handleUnvote($talkId): void
     {
         $userId = $this->user->id;
         $this->talkManager->removeVote($userId, $talkId);
         if ($this->isAjax()) {
             $talk = $this->talkManager->getById($talkId);
             $this->sendJson([
+                'status' => true,
                 'votes' => $talk->votes,
                 'hasVoted' => false,
             ]);
