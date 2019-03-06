@@ -1,0 +1,70 @@
+## .htaccess for Wedos webhosting
+## ==============================
+
+# Deploy instructions
+# -------------------
+
+# 1. Rename file to .htaccess
+# 2. Upload to root of webhosting's DocumentRoot (usually /www/ on FTP)
+
+#################################
+
+RewriteEngine On
+
+## 2019
+
+# HTTP -> HTTPS
+RewriteCond %{HTTP_HOST} prazskybarcamp\.cz$
+RewriteCond %{HTTP_HOST} !^(2017\.|2018\.)prazskybarcamp\.cz$
+RewriteCond %{HTTPS} !on
+RewriteRule .? https://www.prazskybarcamp.cz%{REQUEST_URI} [R=301,L]
+
+# domain.tld -> www.domain.tld
+RewriteCond %{HTTP_HOST} prazskybarcamp\.cz$
+RewriteCond %{HTTP_HOST} !^(2017\.|2018\.)prazskybarcamp\.cz$
+RewriteCond %{HTTP_HOST} !^www\.prazskybarcamp\.cz$
+RewriteRule .? https://www.prazskybarcamp.cz%{REQUEST_URI} [R=301,L]
+
+# WEDOS FUCKING SUCK
+# https://www.prazskybarcamp.cz/www/... -> https://www.prazskybarcamp.cz/...
+RewriteCond %{HTTP_HOST} ^www\.prazskybarcamp\.cz$
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_URI} ^/www/?(.*)
+RewriteRule .* /%1 [R=301,L,QSA,NE]
+
+# /blog -> /blog/
+RewriteRule ^blog$ /blog/ [R,L]
+
+# Rewrite to project directory
+RewriteCond %{HTTP_HOST} ^www\.prazskybarcamp\.cz$
+RewriteCond %{REQUEST_URI} !^round_2019/www/
+RewriteCond %{REQUEST_URI} !^/round_2019/www/
+RewriteRule (.*) round_2019/www/$1 [DPI]
+
+
+## 2018
+
+# HTTP -> HTTPS
+RewriteCond %{HTTP_HOST} ^2018.prazskybarcamp\.cz$
+RewriteCond %{HTTPS} !on
+RewriteRule .? https://2018.prazskybarcamp.cz%{REQUEST_URI} [R=301,L]
+
+# Rewrite to project directory
+RewriteCond %{HTTP_HOST} ^2018.prazskybarcamp\.cz$
+RewriteCond %{REQUEST_URI} !^round_2018/www/
+RewriteCond %{REQUEST_URI} !^/round_2018/www/
+RewriteRule (.*) round_2018/$1 [DPI]
+
+
+## 2017
+
+# HTTP -> HTTPS
+RewriteCond %{HTTP_HOST} ^2017.prazskybarcamp\.cz$
+RewriteCond %{HTTPS} !on
+RewriteRule .? https://2017.prazskybarcamp.cz%{REQUEST_URI} [R=301,L]
+
+# Rewrite to project directory
+RewriteCond %{HTTP_HOST} ^2017.prazskybarcamp\.cz$
+RewriteCond %{REQUEST_URI} !^round_2017/www/
+RewriteCond %{REQUEST_URI} !^/round_2017/www/
+RewriteRule (.*) round_2017/$1 [DPI]

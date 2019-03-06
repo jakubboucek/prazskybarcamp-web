@@ -10,6 +10,12 @@
     RewriteEngine On
     # RewriteBase /
 
+    # WEDOS FUCKING SUCK
+    # https://www.prazskybarcamp.cz/round_2019/www/... -> https://www.prazskybarcamp.cz/...
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteCond %{REQUEST_URI} ^/round_2019/www(.*)
+    RewriteRule .* %1 [R=301,L,QSA,NE]
+
     # prevents files starting with dot to be viewed by browser
     RewriteRule /\.|^\.(?!well-known/) - [F]
 

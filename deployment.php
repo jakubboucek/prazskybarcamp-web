@@ -4,7 +4,7 @@ $credentials = require __DIR__ . '/local/deployment.local.php';
 
 return [
     'web' => [
-        'remote' => 'ftps://134701.w1.wedos.net/www',
+        'remote' => 'ftps://134701.w1.wedos.net/www/round_2019',
         'user' => $credentials['user'] ?? null,
         'password' => $credentials['password'] ?? null,
         'local' => '.',

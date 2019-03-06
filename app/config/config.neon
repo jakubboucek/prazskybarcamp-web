@@ -20,9 +20,9 @@ parameters:
         bcc: ["kosik.pa@seznam.cz"]
     api_token_secretkey: {secret-token}
     wordpress:
-        url: https://prazskybarcamp.cz/blog/
+        url: https://www.prazskybarcamp.cz/blog/
         maxItems: 4
-        defaultThumbnail: https://prazskybarcamp.cz/img/barcamp-og.png
+        defaultThumbnail: https://www.prazskybarcamp.cz/img/barcamp-og.png
 
 application:
     errorPresenter: Error
