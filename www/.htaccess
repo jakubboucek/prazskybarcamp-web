@@ -6,29 +6,26 @@
 </IfModule>
 
 # enable cool URL
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    # RewriteBase /
+RewriteEngine On
+# RewriteBase /
 
-    # WEDOS FUCKING SUCK
-    # https://www.prazskybarcamp.cz/round_2019/www/... -> https://www.prazskybarcamp.cz/...
-    RewriteCond %{ENV:REDIRECT_STATUS} ^$
-    RewriteCond %{REQUEST_URI} ^/round_2019/www(.*)
-    RewriteRule .* %1 [R=301,L,QSA,NE]
+# WEDOS FUCKING SUCK
+# https://www.prazskybarcamp.cz/round_2019/www/... -> https://www.prazskybarcamp.cz/...
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_URI} ^/round_2019/www(.*)
+RewriteRule .* %1 [R=301,L,QSA,NE]
 
-    # prevents files starting with dot to be viewed by browser
-    RewriteRule /\.|^\.(?!well-known/) - [F]
+# prevents files starting with dot to be viewed by browser
+RewriteRule /\.|^\.(?!well-known/) - [F]
 
-    RewriteRule ^kontakty$ /kontakt [R,L]
+RewriteRule ^kontakty$ /kontakt [R,L]
 
-    # front controller
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} !^blog/?
-    RewriteCond %{REQUEST_URI} !^/blog/?
-    RewriteRule !\.(pdf|js|ico|gif|jpg|png|css|rar|zip|tar\.gz|map)$ index.php [L]
-
-</IfModule>
+# front controller
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^blog/?
+RewriteCond %{REQUEST_URI} !^/blog/?
+RewriteRule !\.(pdf|js|ico|gif|jpg|png|css|rar|zip|tar\.gz|map)$ index.php [L]
 
 # enable gzip compression
 <IfModule mod_deflate.c>
