@@ -1186,15 +1186,19 @@ main {
             line-height: 1.3;
 
             &:hover {
-                border-color: @color-action;
+                border-color: @color-brand;
+            }
+
+            &.single-item {
+                cursor: default;
             }
         }
 
         &.ui-state-active {
             a {
-                background-color: @color-action;
+                background-color: @color-brand;
                 color: @color-default;
-                border-color: @color-action;
+                border-color: @color-brand;
             }
             .item-heading {
                 color: @color-default;
@@ -1205,7 +1209,7 @@ main {
     .item-heading {
         display: block;
         font-size: 1.6rem;
-        color: @color-action;
+        color: @color-brand;
         font-weight: 900;
         text-transform: uppercase;
         font-family: @font2;
