@@ -1321,7 +1321,7 @@ main {
     }
 
     .item-title {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
         display: block;
         margin: 0;
         line-height: 1.2;
@@ -1526,10 +1526,6 @@ a.program-item {
 
     .t15 {
         height: 2.375rem*@timerowsHeightCoef;
-        .item-content{padding-top:0.4rem*@timerowsHeightCoef;padding-bottom:0px;
-                      /*.item-footer{padding-bottom:0rem;}*/
-
-        }
     }
 
     .t20 {
@@ -1616,14 +1612,16 @@ a.program-item {
         height: 19rem*@timerowsHeightCoef;
     }
 
-    /*    .t30 {
-            .item-content {
-                padding-top: 1.2rem*@timerowsHeightCoef;
-            }
-            .time {
-                padding-bottom: 0.3rem*@timerowsHeightCoef;
-            }
-        }*/
+    .t5, .t10, .t15 {
+        .item-content {
+            padding-top: 1rem;
+            padding-bottom: 0;
+        }
+
+        .item-footer {
+            display: none;
+        }
+    }
 }
 
 .style1 {
