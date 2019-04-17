@@ -232,10 +232,13 @@ class ConferencePresenter extends BasePresenter
             /** @var Program $program */
             $program = $talk->program->get()->fetch();
 
-            $this->template->program = [
-                'time' => $program->time->format('%H:%I'),
-                'room' => $this->talkManager->getRooms()[$program->room],
-            ];
+            $rooms = $this->talkManager->getRooms();
+            if(isset($rooms[$program->room])) {
+                $this->template->program = [
+                    'time' => $program->time->format('%H:%I'),
+                    'room' => $rooms[$program->room],
+                ];
+            }
         }
 
         $votes = [];
